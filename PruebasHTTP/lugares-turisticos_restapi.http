@@ -1,0 +1,97 @@
+### Variables globales
+@baseUrl = http://localhost:8000/api
+@contentType = application/json
+
+### Login (JSON) - Necesario para operaciones de administrador
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "email": "admin@example.com",
+    "password": "password"
+}
+
+### RUTAS PÚBLICAS (LECTURA) ###
+
+### Obtener todos los lugares turísticos
+GET {{baseUrl}}/lugares-turisticos HTTP/1.1
+Accept: {{contentType}}
+
+### Obtener un lugar turístico específico
+GET {{baseUrl}}/lugares-turisticos/1 HTTP/1.1
+Accept: {{contentType}}
+
+### RUTAS PARA ADMINISTRADORES (CRUD COMPLETO) ###
+
+### Obtener todos los lugares turísticos (admin)
+GET {{baseUrl}}/lugares-turisticos HTTP/1.1
+Accept: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+### Obtener un lugar turístico específico (admin)
+GET {{baseUrl}}/lugares-turisticos/1 HTTP/1.1
+Accept: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+### Crear un nuevo lugar turístico
+POST {{baseUrl}}/lugares-turisticos HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+{
+    "nombre": "Isla Taquile",
+    "descripcion": "Famosa isla del Lago Titicaca conocida por sus textiles declarados Patrimonio Cultural Inmaterial de la Humanidad por la UNESCO.",
+    "ubicacion": "Lago Titicaca, Puno",
+    "imagen": "taquile.jpg"
+}
+
+### Crear otro lugar turístico
+POST {{baseUrl}}/lugares-turisticos HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+{
+    "nombre": "Amantaní",
+    "descripcion": "Hermosa isla del Lago Titicaca donde los visitantes pueden hospedarse con familias locales y experimentar la vida tradicional andina.",
+    "ubicacion": "Lago Titicaca, Puno",
+    "imagen": "amantani.jpg"
+}
+
+### Actualizar un lugar turístico existente
+PUT {{baseUrl}}/lugares-turisticos/1 HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+{
+    "nombre": "Isla Taquile - Patrimonio Cultural",
+    "descripcion": "Isla del Lago Titicaca conocida mundialmente por sus textiles tradicionales declarados Patrimonio Cultural Inmaterial de la Humanidad por la UNESCO en 2005.",
+    "ubicacion": "Lago Titicaca, Puno, Perú",
+    "imagen": "taquile_actualizada.jpg"
+}
+
+### Actualizar parcialmente un lugar turístico (Falla)
+PATCH {{baseUrl}}/lugares-turisticos/1 HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+{
+    "descripcion": "Descripción actualizada de la isla Taquile, destacando sus tradiciones textiles centenarias.",
+    "imagen": "taquile_nueva.jpg"
+}
+
+### Eliminar un lugar turístico
+DELETE {{baseUrl}}/lugares-turisticos/2 HTTP/1.1
+Accept: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+### Actualizar lugar turístico con nueva imagen
+PUT {{baseUrl}}/lugares-turisticos/1 HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer 15|ske6hDEc57n4sNwpE8Q6SGglY54zPpDqxoVl1lSo40fa3017
+
+{
+    "nombre": "Isla Taquile - Actualizada",
+    "descripcion": "Descripción actualizada de la Isla Taquile",
+    "ubicacion": "Lago Titicaca, Puno, Perú",
+    "imagen": "taquile_nueva_2023.jpg"
+}

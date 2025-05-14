@@ -1,0 +1,95 @@
+### Variables globales
+@baseUrl = http://localhost:8000/api
+@contentType = application/json
+
+### Login (JSON)
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "email": "admin@turismo.com",
+    "password": "password123"
+}
+
+### Obtener todas las municipalidades
+GET {{baseUrl}}/municipalidad HTTP/1.1
+Accept: {{contentType}}
+
+### Obtener una municipalidad específica
+GET {{baseUrl}}/municipalidad/1 HTTP/1.1
+Accept: {{contentType}}
+
+### Obtener municipalidad con sus relaciones básicas
+GET {{baseUrl}}/municipalidad/1/relaciones HTTP/1.1
+Accept: {{contentType}}
+
+### Obtener municipalidad con sus asociaciones
+GET {{baseUrl}}/municipalidad/1/asociaciones HTTP/1.1
+Accept: {{contentType}}
+
+### Obtener municipalidad con asociaciones y emprendedores (completo)
+GET {{baseUrl}}/municipalidad/1/asociaciones/emprendedores HTTP/1.1
+Accept: {{contentType}}
+
+### Crear una nueva municipalidad
+POST {{baseUrl}}/municipalidad HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "nombre": "Municipalidad Distrital de Huata",
+    "descripcion": "Municipalidad ubicada a 30 km de Juliaca, dedicada al desarrollo agropecuario y turístico de sus comunidades andinas.",
+    "red_facebook": "https://facebook.com/MunicipalidadDistritalDeHuata",
+    "red_instagram": "https://instagram.com/munihuata",
+    "red_youtube": "https://youtube.com/c/MunicipalidadHuata",
+    "coordenadas_x": -15.4667,
+    "coordenadas_y": -69.8833,
+    "frase": "Huata: Tierra fértil, gente trabajadora",
+    "comunidades": "Huata, Ccotos, Chucuito, Vilque, Huancané, Pusi",
+    "historiafamilias": "Familias de origen aimara dedicadas por generaciones a la agricultura de papas nativas y crianza de alpacas.",
+    "historiacapachica": "Históricamente vinculada a Capachica por intercambios comerciales y culturales en la región del Lago Titicaca.",
+    "comite": "Comité de Desarrollo Distrital integrado por representantes de las 6 comunidades campesinas.",
+    "mision": "Promover el desarrollo sostenible mediante la gestión pública transparente y el fortalecimiento de la agricultura y turismo rural.",
+    "vision": "Ser un distrito líder en producción agroecológica y turismo comunitario para el 2030.",
+    "valores": "Identidad cultural, Responsabilidad ambiental, Equidad social",
+    "ordenanzamunicipal": "Ordenanza N° 012-2023 sobre gestión de residuos sólidos y protección de cuencas hidrográficas.",
+    "alianzas": "Gobierno Regional Puno, SENASA, Sierra y Selva Exportadora, Universidad Nacional del Altiplano",
+    "correo": "munihuata@munihuata.gob.pe",
+    "horariodeatencion": "Lunes a Viernes: 7:30 AM - 3:30 PM"
+}
+
+### Actualizar una municipalidad existente
+PUT {{baseUrl}}/municipalidad/1 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "nombre": "Municipalidad Distrital de Capachica",
+    "descripcion": La Municipalidad Distrital de Capachica es una institución pública que vela por el desarrollo sostenible del distrito a través de la promoción del turismo, conservación del medio ambiente y mejora de la calidad de vida de sus pobladores.",
+    "red_facebook": "https:\/\/facebook.com\/municipalidadcapachica",
+    "red_instagram": "https:\/\/instagram.com\/municapachica",
+    "correo": "informes@municapachica.gob.pe",
+    "horariodeatencion": "Lunes a Viernes: 8:00 am - 5:00 pm",
+}
+
+### Actualizar parcialmente una municipalidad
+PATCH {{baseUrl}}/municipalidad/1 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "nombre": "Municipalidad Distrital de Capachica",
+    "mision": "Nueva misión de la municipalidad actualizada"
+}
+
+### Eliminar una municipalidad
+DELETE {{baseUrl}}/municipalidad/2 HTTP/1.1
+Accept: {{contentType}}
+Authorization: Bearer 8|NCV0sqHUVnqpKIoLZIresAQH0pqv0qeaIJf9seXw47558acb
+
+0### Actualizar municipalidad con eliminación de sliders
+PUT {{baseUrl}}/municipalidad/1 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "nombre": "Municipalidad Actualizada",
+    "descripcion": "Descripción actualizada",
+    "deleted_sliders": [1, 2, 3]
+}
