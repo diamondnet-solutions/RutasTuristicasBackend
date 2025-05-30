@@ -22,6 +22,8 @@ use App\reservas\reserva\Controller\ReservaServicioController; //Agregando contr
 use App\Servicios\Controllers\CategoriaController;
 use App\Http\Controllers\API\GoogleAuthController;
 use App\Http\Controllers\LugarTuristicoController;
+use App\Reportes\Http\Controllers\ReporteReservasController;
+use App\Reportes\Http\Controllers\ReporteUsuariosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -266,6 +268,34 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/{id}', [LugarTuristicoController::class, 'update']);
             Route::delete('/{id}', [LugarTuristicoController::class, 'destroy']);
         });
+    });
+
+    Route::prefix('reportes')->middleware(['auth:sanctum'])->group(function () {
+
+        // 📅 Reportes de Reservas
+        Route::prefix('reservas')->group(function () {
+            Route::post('/', [ReporteReservasController::class, 'index']) // General con filtros
+            ->middleware('permission:reserva_report');
+
+            Route::post('/por-categoria', [ReporteReservasController::class, 'porCategoria'])
+                ->middleware('permission:reserva_report');
+
+            Route::post('/por-servicio', [ReporteReservasController::class, 'porServicio'])
+                ->middleware('permission:reserva_report');
+        });
+
+        // 👤 Reportes de Usuarios
+        Route::prefix('usuarios')->group(function () {
+            Route::post('/', [ReporteUsuariosController::class, 'index']) // General con filtros
+            ->middleware('permission:user_report');
+
+            Route::post('/por-municipalidad', [ReporteUsuariosController::class, 'porMunicipalidad'])
+                ->middleware('permission:user_report');
+
+            Route::post('/resumen', [ReporteUsuariosController::class, 'resumenGeneral'])
+                ->middleware('permission:user_report');
+        });
+
     });
 
 });

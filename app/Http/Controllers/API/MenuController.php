@@ -186,35 +186,42 @@ class MenuController extends Controller
             ],
             [
                 'id' => 'reportes',
-                'title' => 'Reportes',
+                'title' => 'reportes',
                 'icon' => 'chart-bar',
                 'path' => '/admin/reportes',
                 'permissions' => ['reporte_read'],
                 'children' => [
                     [
-                        'id' => 'reporte-general',
-                        'title' => 'Estadísticas Generales',
-                        'path' => '/admin/reportes/general',
+                        'id' => 'reporte-emprendedores',
+                        'title' => 'Reporte de Emprendedores',
+                        'path' => '/admin/reportes/emprendedores',
                         'permissions' => ['reporte_read'],
                     ],
                     [
-                        'id' => 'reporte-ventas',
-                        'title' => 'Ventas y Reservas',
-                        'path' => '/admin/reportes/ventas',
+                        'id' => 'reporte-asociaciones',
+                        'title' => 'Reporte de Asociaciones',
+                        'path' => '/admin/reportes/asociaciones',
                         'permissions' => ['reporte_read'],
                     ],
                     [
-                        'id' => 'reporte-visitas',
-                        'title' => 'Visitas por Lugares',
-                        'path' => '/admin/reportes/visitas',
+                        'id' => 'reporte-lugares',
+                        'title' => 'Lugares Turísticos',
+                        'path' => '/admin/reportes/lugares',
+                        'permissions' => ['reporte_read'],
+                    ],
+                    [
+                        'id' => 'reporte-reservas',
+                        'title' => 'Reservas y Ventas',
+                        'path' => '/admin/reportes/reservas',
                         'permissions' => ['reporte_read'],
                     ],
                     [
                         'id' => 'reporte-exportar',
                         'title' => 'Exportar Datos',
                         'path' => '/admin/reportes/exportar',
-                        'permissions' => ['reporte_exportar'],
+                        'permissions' => ['reporte_exportar']
                     ],
+
                 ]
             ],
             [
