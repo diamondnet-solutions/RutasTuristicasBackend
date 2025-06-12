@@ -1,6 +1,6 @@
 <?php
 
-namespace App\reservas\Emprendedores\Models;
+namespace App\Reportes\Emprendedores\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -67,23 +67,17 @@ class Emprendedor extends Model
     public function administradores()
     {
         return $this->belongsToMany(User::class, 'user_emprendedor')
-                    ->withPivot('es_principal', 'rol')
-                    ->withTimestamps();
+            ->withPivot('es_principal', 'rol')
+            ->withTimestamps();
     }
-     /**
+    /**
      * Obtener el administrador principal del emprendimiento
      */
     public function administradorPrincipal()
     {
         return $this->belongsToMany(User::class, 'user_emprendedor')
-            ->withPivot('es_principal', 'rol')
             ->wherePivot('es_principal', true)
-            ->withTimestamps();
-    }
-
-    public function getAdministradorPrincipalAttribute()
-    {
-        return $this->administradores->firstWhere('pivot.es_principal', true);
+            ->first();
     }
     public function servicios(): HasMany
     {
@@ -92,32 +86,32 @@ class Emprendedor extends Model
     public function reservas(): BelongsToMany
     {
         return $this->belongsToMany(Reserva::class, 'reserva_detalle')
-                    ->withPivot('descripcion', 'cantidad')
-                    ->withTimestamps();
+            ->withPivot('descripcion', 'cantidad')
+            ->withTimestamps();
     }
 
     // Nuevas relaciones para sliders
     public function sliders(): HasMany
     {
         return $this->hasMany(Slider::class, 'entidad_id')
-                    ->where('tipo_entidad', 'emprendedor')
-                    ->orderBy('orden');
+            ->where('tipo_entidad', 'emprendedor')
+            ->orderBy('orden');
     }
 
     public function slidersPrincipales()
     {
         return $this->hasMany(Slider::class, 'entidad_id')
-                    ->where('tipo_entidad', 'emprendedor')
-                    ->where('es_principal', true)
-                    ->orderBy('orden');
+            ->where('tipo_entidad', 'emprendedor')
+            ->where('es_principal', true)
+            ->orderBy('orden');
     }
 
     public function slidersSecundarios()
     {
         return $this->hasMany(Slider::class, 'entidad_id')
-                    ->where('tipo_entidad', 'emprendedor')
-                    ->where('es_principal', false)
-                    ->with('descripcion')
-                    ->orderBy('orden');
+            ->where('tipo_entidad', 'emprendedor')
+            ->where('es_principal', false)
+            ->with('descripcion')
+            ->orderBy('orden');
     }
 }

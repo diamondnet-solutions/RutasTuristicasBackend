@@ -1,0 +1,297 @@
+### Variables globales
+@baseUrl = http://localhost:8000/api
+@contentType = application/json
+
+### Login - Necesario para acceder a reportes
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "email": "admin@example.com",
+    "password": "password"
+}
+
+### TOKEN DE AUTENTICACIÓN ###
+# Reemplaza este token con el obtenido del login
+@authToken = 26|6fV9dFImSaQgvX84bIavyn6zldttvPVupIz1oZsR6b695c0e
+
+### ====================================== ###
+### REPORTES DE EMPRENDEDORES - ENDPOINTS ###
+### ====================================== ###
+
+### 📊 Obtener datos para filtros del reporte
+GET {{baseUrl}}/reportes/emprendedores/filtros HTTP/1.1
+Accept: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+### 👁️ Previsualización del reporte - Sin filtros
+POST {{baseUrl}}/reportes/emprendedores/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 👁️ Previsualización con filtros básicos
+POST {{baseUrl}}/reportes/emprendedores/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "categoria": "Gastronomía",
+    "facilidades_discapacidad": true,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 👁️ Previsualización con filtros avanzados
+POST {{baseUrl}}/reportes/emprendedores/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "categoria": "Hospedaje",
+    "municipalidad": "Cusco",
+    "comunidad": "San Blas",
+    "fecha_desde": "2024-01-01",
+    "fecha_hasta": "2024-12-31",
+    "facilidades_discapacidad": true,
+    "tipo_servicio": "hotel",
+    "precio_min": 50,
+    "precio_max": 200,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 Generar PDF - Reporte básico
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtro por categoría
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "categoria": "Alojamiento",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtros de ubicación
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad": "Cusco",
+    "comunidad": "San Pedro",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF con filtros por asociación
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "asociacion_id": 1,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtros de fecha
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "fecha_desde": "2024-01-01",
+    "fecha_hasta": "2024-06-30",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtros de accesibilidad
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "facilidades_discapacidad": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtros de servicio
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "tipo_servicio": "restaurant",
+    "precio_min": 25,
+    "precio_max": 100,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF con todos los filtros aplicados
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "categoria": "Turismo",
+    "municipalidad": "Pisac",
+    "comunidad": "Pisac Centro",
+    "asociacion_id": 2,
+    "fecha_desde": "2024-01-01",
+    "fecha_hasta": "2024-12-31",
+    "facilidades_discapacidad": false,
+    "tipo_servicio": "guía",
+    "precio_min": 30,
+    "precio_max": 150,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### ================================ ###
+### CASOS DE PRUEBA DE VALIDACIÓN ###
+### ================================ ###
+
+### ❌ Test: Filtros con datos inválidos (fechas incorrectas)
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "fecha_desde": "2024-12-31",
+    "fecha_hasta": "2024-01-01",
+    "formato": "pdf"
+}
+
+### ❌ Test: Precios inválidos (min > max)
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "precio_min": 200,
+    "precio_max": 50,
+    "formato": "pdf"
+}
+
+### ❌ Test: Orientación inválida
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "orientacion": "diagonal",
+    "formato": "pdf"
+}
+
+### ❌ Test: Sin autenticación
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "formato": "pdf"
+}
+
+### ========================== ###
+### CASOS DE PRUEBA VARIADOS ###
+### ========================== ###
+
+### 📄 PDF solo con estadísticas (sin datos individuales)
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF formato apaisado con gráficos
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "categoria": "Artesanía",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 👁️ Preview para emprendedores recientes (último trimestre)
+POST {{baseUrl}}/reportes/emprendedores/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "fecha_desde": "2024-04-01",
+    "fecha_hasta": "2024-06-30",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 👁️ Preview para emprendedores con precios premium
+POST {{baseUrl}}/reportes/emprendedores/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "precio_min": 100,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF de emprendedores accesibles por municipalidad
+POST {{baseUrl}}/reportes/emprendedores/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad": "Ollantaytambo",
+    "facilidades_discapacidad": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}

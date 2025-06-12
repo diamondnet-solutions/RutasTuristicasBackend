@@ -18,12 +18,13 @@ use App\Reservas\Asociaciones\Http\Controllers\AsociacionController;
 use App\Reservas\reserva\Controller\ReservaController;
 use App\reservas\reservadetalle\Controller\ReservaDetalleController;
 use App\Servicios\Controllers\ServicioController;
-use App\reservas\reserva\Controller\ReservaServicioController; //Agregando controller
+use App\reservas\reserva\Controller\ReservaServicioController;
+
+//Agregando controller
 use App\Servicios\Controllers\CategoriaController;
 use App\Http\Controllers\API\GoogleAuthController;
 use App\Http\Controllers\LugarTuristicoController;
-use App\Reportes\Http\Controllers\ReporteReservasController;
-use App\Reportes\Http\Controllers\ReporteUsuariosController;
+use App\Reportes\Emprendedores\Http\Controllers\EmprendedoresReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -271,31 +272,14 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('reportes')->middleware(['auth:sanctum'])->group(function () {
+        // 📄 PDF - Reporte de Emprendedores
+        Route::post('/emprendedores/pdf', [EmprendedoresReportController::class, 'generarPDF']);
 
-        // 📅 Reportes de Reservas
-        Route::prefix('reservas')->group(function () {
-            Route::post('/', [ReporteReservasController::class, 'index']) // General con filtros
-            ->middleware('permission:reserva_report');
+        // 📊 Datos para filtros
+        Route::get('/emprendedores/filtros', [EmprendedoresReportController::class, 'obtenerDatosFiltros']);
 
-            Route::post('/por-categoria', [ReporteReservasController::class, 'porCategoria'])
-                ->middleware('permission:reserva_report');
-
-            Route::post('/por-servicio', [ReporteReservasController::class, 'porServicio'])
-                ->middleware('permission:reserva_report');
-        });
-
-        // 👤 Reportes de Usuarios
-        Route::prefix('usuarios')->group(function () {
-            Route::post('/', [ReporteUsuariosController::class, 'index']) // General con filtros
-            ->middleware('permission:user_report');
-
-            Route::post('/por-municipalidad', [ReporteUsuariosController::class, 'porMunicipalidad'])
-                ->middleware('permission:user_report');
-
-            Route::post('/resumen', [ReporteUsuariosController::class, 'resumenGeneral'])
-                ->middleware('permission:user_report');
-        });
-
+        // 👁️ Previsualización del reporte
+        Route::post('/emprendedores/preview', [EmprendedoresReportController::class, 'previsualizarReporte']);
     });
 
 });
