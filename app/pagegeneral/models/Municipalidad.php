@@ -13,7 +13,7 @@ class Municipalidad extends Model
     use HasFactory;
 
     protected $table = 'municipalidad';
-    
+
     protected $fillable = [
         'nombre',
         'descripcion',
@@ -41,7 +41,7 @@ class Municipalidad extends Model
      */
     public function asociaciones(): HasMany
     {
-        return $this->hasMany(Asociacion::class);
+        return $this->hasMany(Asociacion::class, 'municipalidad_id');
     }
 
     public function sliders(): HasMany

@@ -1,0 +1,368 @@
+### Variables globales
+@baseUrl = http://localhost:8000/api
+@contentType = application/json
+
+### Login - Necesario para acceder a reportes
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "email": "admin@example.com",
+    "password": "password"
+}
+
+### TOKEN DE AUTENTICACIÓN ###
+# Reemplaza este token con el obtenido del login
+@authToken = 38|v8cSotomvAbh2VdUbjVtDzRaKWxY8CC6PuWfr4aN7cc92b5b
+
+### ====================================== ###
+### REPORTES DE ASOCIACIONES - ENDPOINTS ###
+### ====================================== ###
+
+### 📊 Obtener datos para filtros del reporte
+GET {{baseUrl}}/reportes/asociaciones/filtros HTTP/1.1
+Accept: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+### 👁️ Previsualización del reporte - Sin filtros
+POST {{baseUrl}}/reportes/asociaciones/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 👁️ Previsualización con filtros básicos
+POST {{baseUrl}}/reportes/asociaciones/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_id": 1,
+    "estado": true,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 👁️ Previsualización con filtros avanzados
+POST {{baseUrl}}/reportes/asociaciones/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_id": 2,
+    "municipalidad_nombre": "Cusco",
+    "estado": true,
+    "fecha_desde": "2024-01-01",
+    "fecha_hasta": "2024-12-31",
+    "con_emprendedores": true,
+    "con_servicios": true,
+    "calificacion_minima": 4.0,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 Generar PDF - Reporte básico
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtro por municipalidad
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_id": 1,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF de asociaciones activas
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "estado": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF de asociaciones inactivas
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "estado": false,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con filtros de fecha
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "fecha_desde": "2024-01-01",
+    "fecha_hasta": "2024-06-30",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF solo asociaciones con emprendedores
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "con_emprendedores": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF solo asociaciones con servicios
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "con_servicios": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF con calificación mínima
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "calificacion_minima": 4.5,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF por municipalidad específica (nombre)
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_nombre": "Pisac",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF con todos los filtros aplicados
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_id": 3,
+    "municipalidad_nombre": "Ollantaytambo",
+    "estado": true,
+    "fecha_desde": "2024-01-01",
+    "fecha_hasta": "2024-12-31",
+    "con_emprendedores": true,
+    "con_servicios": true,
+    "calificacion_minima": 4.0,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### ================================ ###
+### CASOS DE PRUEBA DE VALIDACIÓN ###
+### ================================ ###
+
+### ❌ Test: Filtros con datos inválidos (fechas incorrectas)
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "fecha_desde": "2024-12-31",
+    "fecha_hasta": "2024-01-01",
+    "formato": "pdf"
+}
+
+### ❌ Test: Calificación inválida (fuera de rango)
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "calificacion_minima": 6.0,
+    "formato": "pdf"
+}
+
+### ❌ Test: Municipalidad inexistente
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_id": 9999,
+    "formato": "pdf"
+}
+
+### ❌ Test: Orientación inválida
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "orientacion": "diagonal",
+    "formato": "pdf"
+}
+
+### ❌ Test: Sin autenticación
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "formato": "pdf"
+}
+
+### ========================== ###
+### CASOS DE PRUEBA VARIADOS ###
+### ========================== ###
+
+### 📄 PDF solo con estadísticas (sin datos individuales)
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF formato apaisado con gráficos
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_nombre": "Machu Picchu",
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 👁️ Preview para asociaciones recientes (último trimestre)
+POST {{baseUrl}}/reportes/asociaciones/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "fecha_desde": "2024-04-01",
+    "fecha_hasta": "2024-06-30",
+    "incluir_estadisticas": true,
+    "incluir_graficos": false,
+    "orientacion": "portrait"
+}
+
+### 👁️ Preview para asociaciones con alta calificación
+POST {{baseUrl}}/reportes/asociaciones/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "calificacion_minima": 4.5,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF de asociaciones activas por municipalidad
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "municipalidad_nombre": "Urubamba",
+    "estado": true,
+    "con_emprendedores": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "portrait"
+}
+
+### 📄 PDF asociaciones con más ingresos mensuales
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "con_servicios": true,
+    "calificacion_minima": 4.0,
+    "estado": true,
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 👁️ Preview comparativo por municipalidades
+POST {{baseUrl}}/reportes/asociaciones/preview HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "estado": true,
+    "con_emprendedores": true,
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape"
+}
+
+### 📄 PDF resumen ejecutivo (solo estadísticas y gráficos)
+POST {{baseUrl}}/reportes/asociaciones/pdf HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+    "formato": "pdf",
+    "incluir_estadisticas": true,
+    "incluir_graficos": true,
+    "orientacion": "landscape",
+    "solo_resumen": true
+}

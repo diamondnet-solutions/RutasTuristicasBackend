@@ -25,6 +25,7 @@ use App\Servicios\Controllers\CategoriaController;
 use App\Http\Controllers\API\GoogleAuthController;
 use App\Http\Controllers\LugarTuristicoController;
 use App\Reportes\Emprendedores\Http\Controllers\EmprendedoresReportController;
+use App\Reportes\Asociaciones\Http\Controllers\AsociacionesReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -280,6 +281,21 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // 👁️ Previsualización del reporte
         Route::post('/emprendedores/preview', [EmprendedoresReportController::class, 'previsualizarReporte']);
+    });
+
+    // Agregar estas rutas a tu archivo routes/api.php existente
+    Route::prefix('reportes')->middleware(['auth:sanctum'])->group(function () {
+        // 📄 PDF - Reporte de Asociaciones
+        Route::post('/asociaciones/pdf', [AsociacionesReportController::class, 'generarPDF']);
+
+        // 📊 Datos para filtros
+        Route::get('/asociaciones/filtros', [AsociacionesReportController::class, 'obtenerDatosFiltros']);
+
+        // 👁️ Previsualización del reporte
+        Route::post('/asociaciones/preview', [AsociacionesReportController::class, 'previsualizarReporte']);
+
+        // 📈 Reporte comparativo
+        Route::post('/asociaciones/comparativo', [AsociacionesReportController::class, 'generarReporteComparativo']);
     });
 
 });

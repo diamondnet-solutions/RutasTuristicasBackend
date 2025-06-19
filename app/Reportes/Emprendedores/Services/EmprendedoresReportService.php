@@ -8,11 +8,11 @@ use App\Reportes\Emprendedores\Pdf\EmprendedoresReportPdfGenerator;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class EmprendedoresReportService
+readonly class EmprendedoresReportService
 {
     public function __construct(
-        private readonly EmprendedoresReportRepository $repository,
-        private readonly EmprendedoresReportPdfGenerator $pdfGenerator
+        private EmprendedoresReportRepository   $repository,
+        private EmprendedoresReportPdfGenerator $pdfGenerator
     ) {}
 
     public function generarReportePDF(array $filtros = [], array $opciones = [], ?string $usuarioGenerador = null): Response
